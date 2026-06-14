@@ -138,7 +138,7 @@ int main() {
 
     do {
         cout << "\n=========================================\n";
-        cout << "    SISTEM MANAJEMEN BANDARA (CORE)     \n";
+        cout << "   SISTEM MANAJEMEN BANDARA   \n";
         cout << "=========================================\n";
         cout << "1. Tambah Jadwal Penerbangan\n";
         cout << "2. Tampilkan Semua Jadwal\n";
