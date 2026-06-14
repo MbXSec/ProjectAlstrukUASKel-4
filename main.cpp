@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
-#include "Antrean.hpp"
-#include "Lajur.hpp"
-#include "Penumpang.hpp"
+
 using namespace std;
 
 // Struct untuk Node Doubly Linked List
