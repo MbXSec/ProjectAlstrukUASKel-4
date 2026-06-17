@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include "QueueAntrian.hpp"
+#include "RiwayatAktivitasBandara.hpp"
 
 using namespace std;
 
@@ -32,6 +34,7 @@ void tambahJadwal(Penerbangan*& head, Penerbangan*& tail, string no, string mask
         tail = nodeBaru; // Pindahkan tail ke node baru
     }
     cout << "\n[SUKSES] Jadwal " << no << " berhasil ditambahkan!\n";
+    tambahAktivitas("Menambah jadwal penerbangan " + no);
 }
 
 // Fungsi Lihat Jadwal (Traversal Maju)
@@ -61,6 +64,7 @@ void ubahJadwal(Penerbangan* head, string no) {
             cout << "Masukkan Tujuan Baru  : "; cin >> temp->tujuan;
             cout << "Masukkan Jam Baru(int): "; cin >> temp->jamTerbang;
             cout << "[SUKSES] Jadwal " << no << " berhasil diperbarui!\n";
+            tambahAktivitas("Mengubah jadwal penerbangan " + no);
             return;
         }
         temp = temp->next;
@@ -93,6 +97,7 @@ void hapusJadwal(Penerbangan*& head, Penerbangan*& tail, string no) {
             }
             delete temp;
             cout << "\n[SUKSES] Jadwal " << no << " berhasil dihapus!\n";
+            tambahAktivitas("Menghapus jadwal penerbangan " + no);
             return;
         }
         temp = temp->next;
@@ -126,6 +131,7 @@ void urutkanJadwal(Penerbangan* head) {
         lptr = ptr1;
     } while (swapped);
     cout << "\n[SUKSES] Jadwal berhasil diurutkan berdasarkan jam terbang terawal!\n";
+    tambahAktivitas("Mengurutkan jadwal penerbangan");
 }
 
 // Menu Utama Aplikasi
@@ -135,18 +141,32 @@ int main() {
     int pilihan;
     string no, maskapai, tujuan;
     int jam;
+    string namaPenumpang, kelasPenumpang, aktivitasBaru;
 
     do {
-        cout << "\n=========================================\n";
-        cout << "   SISTEM MANAJEMEN BANDARA   \n";
-        cout << "=========================================\n";
+        cout << "\n======================================================\n";
+        cout << "               SISTEM MANAJEMEN BANDARA               \n";
+        cout << "======================================================\n";
+        cout << "--- JADWAL PENERBANGAN (Linked List) ---\n";
         cout << "1. Tambah Jadwal Penerbangan\n";
         cout << "2. Tampilkan Semua Jadwal\n";
         cout << "3. Ubah Jadwal Penerbangan\n";
         cout << "4. Hapus Jadwal Penerbangan\n";
         cout << "5. Urutkan Jadwal (Berdasarkan Jam)\n";
-        cout << "6. Keluar\n";
-        cout << "Pilih Menu [1-6]: "; cin >> pilihan;
+        cout << "--- ANTRIAN PENUMPANG (Queue) ---\n";
+        cout << "6. Tambah Antrian Reguler\n";
+        cout << "7. Proses Antrian Reguler\n";
+        cout << "8. Tampilkan Antrian Reguler\n";
+        cout << "9. Tambah Antrian Prioritas (Business)\n";
+        cout << "10. Proses Antrian Prioritas\n";
+        cout << "11. Tampilkan Antrian Prioritas\n";
+        cout << "--- RIWAYAT AKTIVITAS (Stack) ---\n";
+        cout << "12. Tambah Catatan Aktivitas Manual\n";
+        cout << "13. Hapus Riwayat Terakhir (Undo)\n";
+        cout << "14. Lihat Riwayat Terakhir\n";
+        cout << "15. Tampilkan Jumlah Riwayat\n";
+        cout << "0. Keluar\n";
+        cout << "Pilih Menu [0-15]: "; cin >> pilihan;
 
         switch (pilihan) {
             case 1:
@@ -172,12 +192,53 @@ int main() {
                 tampilkanJadwalMaju(headNode);
                 break;
             case 6:
+                cout << "Masukkan Nama Penumpang: "; cin >> namaPenumpang;
+                cout << "Masukkan Kelas Penumpang (Economy/dll): "; cin >> kelasPenumpang;
+                enqueue(namaPenumpang, kelasPenumpang);
+                tambahAktivitas("Menambah antrian reguler penumpang " + namaPenumpang);
+                break;
+            case 7:
+                dequeue();
+                tambahAktivitas("Memproses antrian reguler");
+                break;
+            case 8:
+                tampilAntrian();
+                break;
+            case 9:
+                cout << "Masukkan Nama Penumpang: "; cin >> namaPenumpang;
+                kelasPenumpang = "Business";
+                enqueuePrioritas(namaPenumpang, kelasPenumpang);
+                tambahAktivitas("Menambah antrian prioritas penumpang " + namaPenumpang);
+                break;
+            case 10:
+                dequeuePrioritas();
+                tambahAktivitas("Memproses antrian prioritas");
+                break;
+            case 11:
+                tampilPrioritas();
+                break;
+            case 12:
+                cout << "Masukkan aktivitas: ";
+                cin.ignore();
+                getline(cin, aktivitasBaru);
+                tambahAktivitas(aktivitasBaru);
+                break;
+            case 13:
+                hapusAktivitas();
+                break;
+            case 14:
+                lihatAktivitas();
+                break;
+            case 15:
+                jumlahAktivitas();
+                break;
+            case 0:
                 cout << "\nTerima kasih! Program selesai.\n";
                 break;
             default:
                 cout << "\nPilihan tidak valid!\n";
         }
-    } while (pilihan != 6);
+    } while (pilihan != 0);
 
     return 0;
 }

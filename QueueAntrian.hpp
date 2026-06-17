@@ -1,4 +1,8 @@
+#ifndef QUEUE_ANTRIAN_HPP
+#define QUEUE_ANTRIAN_HPP
+
 #include <iostream>
+#include <string>
 using namespace std;
 
 const int MAX = 10;
@@ -8,25 +12,27 @@ struct Penumpang{
     string kelas;
 };
 
-// Queue Antrian Penumpang
+// Queue Antrian Penumpang (Circular Queue)
 Penumpang antrian[MAX];
 int front = -1;
 int rear = -1;
 
 void enqueue(string nama, string kelas){
-    if(rear == MAX - 1){
+    if((rear + 1) % MAX == front){
         cout << "Antrian penuh\n";
         return;
     }
 
     if(front == -1){
         front = 0;
+        rear = 0;
+    } else {
+        rear = (rear + 1) % MAX;
     }
-
-    rear++;
 
     antrian[rear].nama = nama;
     antrian[rear].kelas = kelas;
+    cout << "Penumpang " << nama << " masuk antrian reguler.\n";
 }
 
 void dequeue(){
@@ -42,7 +48,7 @@ void dequeue(){
         rear = -1;
     }
     else{
-        front++;
+        front = (front + 1) % MAX;
     }
 }
 
@@ -52,16 +58,15 @@ void tampilAntrian(){
         return;
     }
 
-    for(int i = front; i <= rear; i++){
-        cout << antrian[i].nama
-             << " - "
-             << antrian[i].kelas
-             << endl;
+    int i = front;
+    while(true){
+        cout << antrian[i].nama << " - " << antrian[i].kelas << endl;
+        if(i == rear) break;
+        i = (i + 1) % MAX;
     }
 }
 
-
-// Priority Queue Business Class
+// Priority Queue Business Class (Shift Array)
 Penumpang prioritas[MAX];
 int jumlah = 0;
 
@@ -73,8 +78,8 @@ void enqueuePrioritas(string nama, string kelas){
 
     int i = jumlah - 1;
 
+    // Prioritas utama untuk kelas Business
     if(kelas == "Business"){
-
         while(i >= 0 && prioritas[i].kelas != "Business"){
             prioritas[i + 1] = prioritas[i];
             i--;
@@ -85,6 +90,7 @@ void enqueuePrioritas(string nama, string kelas){
     prioritas[i + 1].kelas = kelas;
 
     jumlah++;
+    cout << "Penumpang " << nama << " masuk antrian prioritas.\n";
 }
 
 void dequeuePrioritas(){
@@ -109,9 +115,8 @@ void tampilPrioritas(){
     }
 
     for(int i = 0; i < jumlah; i++){
-        cout << prioritas[i].nama
-             << " - "
-             << prioritas[i].kelas
-             << endl;
+        cout << prioritas[i].nama << " - " << prioritas[i].kelas << endl;
     }
 }
+
+#endif

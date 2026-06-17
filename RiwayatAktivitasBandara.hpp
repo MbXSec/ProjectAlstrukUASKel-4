@@ -1,4 +1,8 @@
+#ifndef RIWAYAT_AKTIVITAS_BANDARA_HPP
+#define RIWAYAT_AKTIVITAS_BANDARA_HPP
+
 #include <iostream>
+#include <string>
 #include <stack>
 using namespace std;
 
@@ -9,12 +13,11 @@ struct Aktivitas {
 stack<Aktivitas> riwayat;
 
 //Tambah aktivitas
-void tambahAktivitas() {
+void tambahAktivitas(string keterangan) {
 	Aktivitas a;
-	cout << "Masukkan aktivitas: ";
-	cin.ignore();
-	getline(cin, a.keterangan);
+	a.keterangan = keterangan;
 	riwayat.push(a);
+    cout << "[RIWAYAT] Aktivitas tercatat: " << keterangan << endl;
 }
 
 //Hapus aktivitas terakhir
@@ -41,20 +44,4 @@ void jumlahAktivitas() {
 	cout << "Jumlah aktivitas: " << riwayat.size() << endl;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif
