@@ -2,6 +2,7 @@
 #include <string>
 #include "QueueAntrian.hpp"
 #include "RiwayatAktivitasBandara.hpp"
+#include "Fitur-mengaturpenumpang.hpp"
 
 using namespace std;
 
@@ -142,6 +143,8 @@ int main() {
     string no, maskapai, tujuan;
     int jam;
     string namaPenumpang, kelasPenumpang, aktivitasBaru;
+    PenumpangBagasi* daftarPenumpangBagasi = nullptr;
+    string tiket, bagasi;
 
     do {
         cout << "\n======================================================\n";
@@ -165,8 +168,12 @@ int main() {
         cout << "13. Hapus Riwayat Terakhir (Undo)\n";
         cout << "14. Lihat Riwayat Terakhir\n";
         cout << "15. Tampilkan Jumlah Riwayat\n";
+        cout << "--- BAGASI PENUMPANG ---\n";
+        cout << "16. Tambah Data Penumpang (Bagasi)\n";
+        cout << "17. Tampilkan Semua Penumpang (Bagasi)\n";
+        cout << "18. Cari Penumpang Berdasarkan Bagasi\n";
         cout << "0. Keluar\n";
-        cout << "Pilih Menu [0-15]: "; cin >> pilihan;
+        cout << "Pilih Menu [0-18]: "; cin >> pilihan;
 
         switch (pilihan) {
             case 1:
@@ -231,6 +238,22 @@ int main() {
                 break;
             case 15:
                 jumlahAktivitas();
+                break;
+            case 16:
+                cout << "Masukkan Nama Penumpang: ";
+                cin.ignore();
+                getline(cin, namaPenumpang);
+                cout << "Masukkan Nomor Tiket: "; cin >> tiket;
+                cout << "Masukkan Nomor Bagasi: "; cin >> bagasi;
+                tambahPenumpangBagasi(daftarPenumpangBagasi, namaPenumpang, tiket, bagasi);
+                tambahAktivitas("Menambah data penumpang dan bagasi " + namaPenumpang);
+                break;
+            case 17:
+                tampilkanSemuaBagasi(daftarPenumpangBagasi);
+                break;
+            case 18:
+                cout << "Masukkan Nomor Bagasi yang dicari: "; cin >> bagasi;
+                cariNomorBagasi(daftarPenumpangBagasi, bagasi);
                 break;
             case 0:
                 cout << "\nTerima kasih! Program selesai.\n";

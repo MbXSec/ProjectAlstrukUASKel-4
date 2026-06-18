@@ -1,19 +1,22 @@
+#ifndef FITUR_MENGATUR_PENUMPANG_HPP
+#define FITUR_MENGATUR_PENUMPANG_HPP
+
 #include <iostream>
 #include <string>
 
 using namespace std;
 
 // Struct untuk menyimpan data penumpang
-struct Penumpang {
+struct PenumpangBagasi {
     string nama;
     string nomorTiket;
     string nomorBagasi;
-    Penumpang* next; // Pointer ke node berikutnya
+    PenumpangBagasi* next; // Pointer ke node berikutnya
 };
 
 // Fungsi untuk menambah penumpang di awal list (Insert First)
-void tambahPenumpang(Penumpang* &head, string nama, string tiket, string bagasi) {
-    Penumpang* baru = new Penumpang();
+void tambahPenumpangBagasi(PenumpangBagasi* &head, string nama, string tiket, string bagasi) {
+    PenumpangBagasi* baru = new PenumpangBagasi();
     baru->nama = nama;
     baru->nomorTiket = tiket;
     baru->nomorBagasi = bagasi;
@@ -23,8 +26,8 @@ void tambahPenumpang(Penumpang* &head, string nama, string tiket, string bagasi)
 }
 
 // Fungsi untuk mencari penumpang berdasarkan Nomor Bagasi
-void cariNomorBagasi(Penumpang* head, string bagasiDicari) {
-    Penumpang* temp = head;
+void cariNomorBagasi(PenumpangBagasi* head, string bagasiDicari) {
+    PenumpangBagasi* temp = head;
     bool ditemukan = false;
 
     cout << "\n--- Hasil Pencarian Bagasi: " << bagasiDicari << " ---\n";
@@ -48,13 +51,13 @@ void cariNomorBagasi(Penumpang* head, string bagasiDicari) {
 }
 
 // Fungsi untuk menampilkan semua data penumpang
-void tampilkanSemua(Penumpang* head) {
+void tampilkanSemuaBagasi(PenumpangBagasi* head) {
     if (head == nullptr) {
         cout << "Daftar penumpang kosong.\n";
         return;
     }
 
-    Penumpang* temp = head;
+    PenumpangBagasi* temp = head;
     cout << "\n=== DAFTAR PENUMPANG ===\n";
     while (temp != nullptr) {
         cout << "Nama: " << temp->nama 
@@ -65,20 +68,4 @@ void tampilkanSemua(Penumpang* head) {
     cout << "========================\n";
 }
 
-int main() {
-    Penumpang* daftarPenumpang = nullptr; // Inisialisasi list kosong
-
-    // 1. Menambah data penumpang
-    tambahPenumpang(daftarPenumpang, "Andi Wijaya", "TK-001", "BGG-99A");
-    tambahPenumpang(daftarPenumpang, "Siti Rahma", "TK-002", "BGG-45B");
-    tambahPenumpang(daftarPenumpang, "Budi Santoso", "TK-003", "BGG-12C");
-
-    // 2. Menampilkan semua penumpang
-    tampilkanSemua(daftarPenumpang);
-
-    // 3. Melakukan pencarian nomor bagasi
-    cariNomorBagasi(daftarPenumpang, "BGG-45B"); // Kasus: Bagasi ada
-    cariNomorBagasi(daftarPenumpang, "BGG-777"); // Kasus: Bagasi tidak ada
-
-    return 0;
-}
+#endif
