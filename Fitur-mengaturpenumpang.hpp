@@ -6,15 +6,13 @@
 
 using namespace std;
 
-// Struct untuk menyimpan data penumpang
 struct PenumpangBagasi {
     string nama;
     string nomorTiket;
     string nomorBagasi;
-    PenumpangBagasi* next; // Pointer ke node berikutnya
+    PenumpangBagasi* next;
 };
 
-// Fungsi untuk menambah penumpang di awal list (Insert First)
 void tambahPenumpangBagasi(PenumpangBagasi* &head, string nama, string tiket, string bagasi) {
     PenumpangBagasi* baru = new PenumpangBagasi();
     baru->nama = nama;
@@ -25,7 +23,6 @@ void tambahPenumpangBagasi(PenumpangBagasi* &head, string nama, string tiket, st
     cout << "Penumpang " << nama << " berhasil ditambahkan!\n";
 }
 
-// Fungsi untuk mencari penumpang berdasarkan Nomor Bagasi
 void cariNomorBagasi(PenumpangBagasi* head, string bagasiDicari) {
     PenumpangBagasi* temp = head;
     bool ditemukan = false;
@@ -39,7 +36,7 @@ void cariNomorBagasi(PenumpangBagasi* head, string bagasiDicari) {
             cout << "Nomor Tiket : " << temp->nomorTiket << "\n";
             cout << "Nomor Bagasi: " << temp->nomorBagasi << "\n";
             ditemukan = true;
-            break; // Hentikan pencarian jika sudah ketemu (asumsi nomor bagasi unik)
+            break;
         }
         temp = temp->next;
     }
@@ -50,7 +47,6 @@ void cariNomorBagasi(PenumpangBagasi* head, string bagasiDicari) {
     cout << "---------------------------------------\n";
 }
 
-// Fungsi untuk menampilkan semua data penumpang
 void tampilkanSemuaBagasi(PenumpangBagasi* head) {
     if (head == nullptr) {
         cout << "Daftar penumpang kosong.\n";

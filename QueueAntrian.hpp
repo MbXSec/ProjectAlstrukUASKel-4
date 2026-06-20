@@ -7,116 +7,132 @@ using namespace std;
 
 const int MAX = 10;
 
-struct Penumpang{
+struct Penumpang {
     string nama;
     string kelas;
 };
 
-// Queue Antrian Penumpang (Circular Queue)
 Penumpang antrian[MAX];
 int front = -1;
-int rear = -1;
+int rear  = -1;
 
-void enqueue(string nama, string kelas){
-    if((rear + 1) % MAX == front){
-        cout << "Antrian penuh\n";
+bool antrianPenuh() {
+    return (front != -1) && ((rear + 1) % MAX == front);
+}
+
+bool antrianKosong() {
+    return front == -1;
+}
+
+void enqueue(string nama, string kelas) {
+    if (antrianPenuh()) {
+        cout << "\n[INFO] Antrian reguler penuh (maks " << MAX << " orang).\n";
         return;
     }
 
-    if(front == -1){
+    if (antrianKosong()) {
         front = 0;
-        rear = 0;
+        rear  = 0;
     } else {
         rear = (rear + 1) % MAX;
     }
 
-    antrian[rear].nama = nama;
+    antrian[rear].nama  = nama;
     antrian[rear].kelas = kelas;
     cout << "Penumpang " << nama << " masuk antrian reguler.\n";
 }
 
-void dequeue(){
-    if(front == -1){
-        cout << "Antrian kosong\n";
+void dequeue() {
+    if (antrianKosong()) {
+        cout << "\n[INFO] Antrian reguler kosong, tidak ada yang diproses.\n";
         return;
     }
 
-    cout << antrian[front].nama << " diproses\n";
+    cout << "[PROSES] " << antrian[front].nama << " sedang diproses.\n";
 
-    if(front == rear){
+    if (front == rear) {
         front = -1;
-        rear = -1;
-    }
-    else{
+        rear  = -1;
+    } else {
         front = (front + 1) % MAX;
     }
 }
 
-void tampilAntrian(){
-    if(front == -1){
-        cout << "Antrian kosong\n";
+void tampilAntrian() {
+    if (antrianKosong()) {
+        cout << "\n[INFO] Antrian reguler kosong.\n";
         return;
     }
 
+    cout << "\n=== ANTRIAN REGULER ===\n";
     int i = front;
-    while(true){
-        cout << antrian[i].nama << " - " << antrian[i].kelas << endl;
-        if(i == rear) break;
+    int urutan = 1;
+    while (true) {
+        cout << urutan++ << ". " << antrian[i].nama
+             << " - " << antrian[i].kelas << "\n";
+        if (i == rear) break;
         i = (i + 1) % MAX;
     }
+    cout << "======================\n";
 }
 
-// Priority Queue Business Class (Shift Array)
 Penumpang prioritas[MAX];
 int jumlah = 0;
 
-void enqueuePrioritas(string nama, string kelas){
-    if(jumlah == MAX){
-        cout << "Antrian penuh\n";
+void enqueuePrioritas(string nama, string kelas) {
+    if (jumlah == MAX) {
+        cout << "\n[INFO] Antrian prioritas penuh (maks " << MAX << " orang).\n";
         return;
     }
 
-    int i = jumlah - 1;
+    int posInsert = jumlah;
 
-    // Prioritas utama untuk kelas Business
-    if(kelas == "Business"){
-        while(i >= 0 && prioritas[i].kelas != "Business"){
-            prioritas[i + 1] = prioritas[i];
-            i--;
+    if (kelas == "Business") {
+        posInsert = 0;
+        while (posInsert < jumlah && prioritas[posInsert].kelas == "Business") {
+            posInsert++;
         }
     }
 
-    prioritas[i + 1].nama = nama;
-    prioritas[i + 1].kelas = kelas;
+    for (int i = jumlah; i > posInsert; i--) {
+        prioritas[i] = prioritas[i - 1];
+    }
 
+    prioritas[posInsert].nama  = nama;
+    prioritas[posInsert].kelas = kelas;
     jumlah++;
-    cout << "Penumpang " << nama << " masuk antrian prioritas.\n";
+
+    cout << "Penumpang " << nama << " (" << kelas
+         << ") masuk antrian prioritas di posisi " << posInsert + 1 << ".\n";
 }
 
-void dequeuePrioritas(){
-    if(jumlah == 0){
-        cout << "Antrian kosong\n";
+void dequeuePrioritas() {
+    if (jumlah == 0) {
+        cout << "\n[INFO] Antrian prioritas kosong, tidak ada yang diproses.\n";
         return;
     }
 
-    cout << prioritas[0].nama << " diproses\n";
+    cout << "[PROSES] " << prioritas[0].nama
+         << " (" << prioritas[0].kelas << ") sedang diproses.\n";
 
-    for(int i = 0; i < jumlah - 1; i++){
+    for (int i = 0; i < jumlah - 1; i++) {
         prioritas[i] = prioritas[i + 1];
     }
-
     jumlah--;
 }
 
-void tampilPrioritas(){
-    if(jumlah == 0){
-        cout << "Antrian kosong\n";
+void tampilPrioritas() {
+    if (jumlah == 0) {
+        cout << "\n[INFO] Antrian prioritas kosong.\n";
         return;
     }
 
-    for(int i = 0; i < jumlah; i++){
-        cout << prioritas[i].nama << " - " << prioritas[i].kelas << endl;
+    cout << "\n=== ANTRIAN PRIORITAS ===\n";
+    for (int i = 0; i < jumlah; i++) {
+        cout << i + 1 << ". " << prioritas[i].nama
+             << " - " << prioritas[i].kelas << "\n";
     }
+    cout << "=========================\n";
 }
 
 #endif

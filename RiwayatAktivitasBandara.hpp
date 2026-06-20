@@ -7,41 +7,53 @@
 using namespace std;
 
 struct Aktivitas {
-	string keterangan;
+    string keterangan;
 };
 
 stack<Aktivitas> riwayat;
 
-//Tambah aktivitas
 void tambahAktivitas(string keterangan) {
-	Aktivitas a;
-	a.keterangan = keterangan;
-	riwayat.push(a);
-    cout << "[RIWAYAT] Aktivitas tercatat: " << keterangan << endl;
+    Aktivitas a;
+    a.keterangan = keterangan;
+    riwayat.push(a);
 }
 
-//Hapus aktivitas terakhir
 void hapusAktivitas() {
-	if (!riwayat.empty()) {
-		cout << "Aktivitas dihapus: " << riwayat.top().keterangan << endl;
-		riwayat.pop();
-	} else {
-		cout << "Riwayat kosong!\n";
-	}
+    if (!riwayat.empty()) {
+        cout << "\n[UNDO] Aktivitas dibatalkan: \"" << riwayat.top().keterangan << "\"\n";
+        riwayat.pop();
+    } else {
+        cout << "\n[INFO] Riwayat aktivitas kosong, tidak ada yang di-undo.\n";
+    }
 }
 
-//Lihat aktivitas terakhir
 void lihatAktivitas() {
-	if (!riwayat.empty()) {
-		cout << "Aktivitas terakhir: " << riwayat.top().keterangan << endl;
-	} else {
-		cout << "Riwayat kosong!\n";
-	}
+    if (!riwayat.empty()) {
+        cout << "\n[RIWAYAT] Aktivitas terakhir: \"" << riwayat.top().keterangan << "\"\n";
+    } else {
+        cout << "\n[INFO] Riwayat aktivitas kosong.\n";
+    }
 }
 
-//Tampilkan jumlah aktivitas
 void jumlahAktivitas() {
-	cout << "Jumlah aktivitas: " << riwayat.size() << endl;
+    cout << "\n[RIWAYAT] Total aktivitas tercatat: " << riwayat.size() << " aktivitas.\n";
+}
+
+void tampilkanSemuaAktivitas() {
+    if (riwayat.empty()) {
+        cout << "\n[INFO] Riwayat aktivitas kosong.\n";
+        return;
+    }
+
+    stack<Aktivitas> temp = riwayat;
+    int urutan = 1;
+
+    cout << "\n======= RIWAYAT SEMUA AKTIVITAS (Terbaru -> Terlama) =======\n";
+    while (!temp.empty()) {
+        cout << urutan++ << ". " << temp.top().keterangan << "\n";
+        temp.pop();
+    }
+    cout << "============================================================\n";
 }
 
 #endif
