@@ -20,7 +20,7 @@ void tambahPenumpangBagasi(PenumpangBagasi* &head, string nama, string tiket, st
     baru->nomorBagasi = bagasi;
     baru->next = head;
     head = baru;
-    cout << "Penumpang " << nama << " berhasil ditambahkan!\n";
+    cout << "Penumpang " << nama << " Berhasil Ditambahkan!\n";
 }
 
 void cariNomorBagasi(PenumpangBagasi* head, string bagasiDicari) {
