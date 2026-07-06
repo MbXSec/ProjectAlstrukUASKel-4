@@ -4,16 +4,12 @@
 #include "RiwayatAktivitasBandara.hpp"
 #include "Fitur-mengaturpenumpang.hpp"
 #include "lajur pesawat.hpp"
-#include "JadwalPenerbangan.hpp"
 
 using namespace std;
 
 int main() {
-    Penerbangan* headNode = nullptr;
-    Penerbangan* tailNode = nullptr;
     int pilihan;
-    string no, maskapai, tujuan;
-    int jam;
+    string maskapai;
     string namaPenumpang, kelasPenumpang, aktivitasBaru;
     PenumpangBagasi* daftarPenumpangBagasi = nullptr;
     string tiket, bagasi;
@@ -23,36 +19,30 @@ int main() {
         cout << "\n======================================================\n";
         cout << "               SISTEM MANAJEMEN BANDARA               \n";
         cout << "======================================================\n";
-        cout << "--- JADWAL PENERBANGAN (Linked List) ---\n";
-        cout << "1. Tambah Jadwal Penerbangan\n";
-        cout << "2. Tampilkan Semua Jadwal\n";
-        cout << "3. Ubah Jadwal Penerbangan\n";
-        cout << "4. Hapus Jadwal Penerbangan\n";
-        cout << "5. Urutkan Jadwal (Berdasarkan Jam)\n";
-        cout << "--- ANTRIAN PENUMPANG (Queue) ---\n";
-        cout << "6. Tambah Antrian Reguler\n";
-        cout << "7. Proses Antrian Reguler\n";
-        cout << "8. Tampilkan Antrian Reguler\n";
-        cout << "9. Tambah Antrian Prioritas (Business)\n";
-        cout << "10. Proses Antrian Prioritas\n";
-        cout << "11. Tampilkan Antrian Prioritas\n";
-        cout << "--- RIWAYAT AKTIVITAS (Stack) ---\n";
-        cout << "12. Tambah Catatan Aktivitas Manual\n";
-        cout << "13. Hapus Riwayat Terakhir (Undo)\n";
-        cout << "14. Lihat Riwayat Terakhir\n";
-        cout << "15. Tampilkan Jumlah Riwayat\n";
-        cout << "16. Tampilkan Semua Riwayat Aktivitas\n";
+        cout << "--- ANTRIAN PENUMPANG ---\n";
+        cout << "1. Tambah Antrian Reguler\n";
+        cout << "2. Proses Antrian Reguler\n";
+        cout << "3. Tampilkan Antrian Reguler\n";
+        cout << "4. Tambah Antrian Prioritas (Business)\n";
+        cout << "5. Proses Antrian Prioritas\n";
+        cout << "6. Tampilkan Antrian Prioritas\n\n";
+        cout << "--- RIWAYAT AKTIVITAS ---\n";
+        cout << "7. Tambah Catatan Aktivitas Manual\n";
+        cout << "8. Hapus Riwayat Terakhir (Undo)\n";
+        cout << "9. Lihat Riwayat Terakhir\n";
+        cout << "10. Tampilkan Jumlah Riwayat\n";
+        cout << "11. Tampilkan Semua Riwayat Aktivitas\n\n";
         cout << "--- BAGASI PENUMPANG ---\n";
-        cout << "17. Tambah Data Penumpang (Bagasi)\n";
-        cout << "18. Tampilkan Semua Penumpang (Bagasi)\n";
-        cout << "19. Cari Penumpang Berdasarkan Bagasi\n";
-        cout << "--- LAJUR KEBERANGKATAN (Linked List) ---\n";
-        cout << "20. Tambah Lajur Keberangkatan\n";
-        cout << "21. Tampilkan Semua Lajur\n";
-        cout << "22. Ubah Status Lajur (Aktif/Tutup)\n";
-        cout << "23. Hapus Lajur Keberangkatan\n";
+        cout << "12. Tambah Data Penumpang (Bagasi)\n";
+        cout << "13. Tampilkan Semua Penumpang (Bagasi)\n";
+        cout << "14. Cari Penumpang Berdasarkan Bagasi\n\n";
+        cout << "--- LAJUR KEBERANGKATAN ---\n";
+        cout << "15. Tambah Lajur Keberangkatan\n";
+        cout << "16. Tampilkan Semua Lajur\n";
+        cout << "17. Ubah Status Lajur (Aktif/Tutup)\n";
+        cout << "18. Hapus Lajur Keberangkatan\n";
         cout << "0. Keluar\n";
-        cout << "Pilih Menu [0-23]: "; cin >> pilihan;
+        cout << "Pilih Menu [0-18]: "; cin >> pilihan;
 
         if (cin.fail()) {
             cin.clear();
@@ -63,77 +53,49 @@ int main() {
 
         switch (pilihan) {
             case 1:
-                cout << "Masukkan Nomor Pesawat : "; getline(cin >> ws, no);
-                cout << "Masukkan Maskapai      : "; getline(cin >> ws, maskapai);
-                cout << "Masukkan Tujuan        : "; getline(cin >> ws, tujuan);
-                cout << "Masukkan Jam (ex: 0830): "; cin >> jam;
-                if (cin.fail()) {
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                    cout << "[EROR] Jam harus berupa angka!\n";
-                    continue;
-                }
-                tambahJadwal(headNode, tailNode, no, maskapai, tujuan, jam);
-                break;
-            case 2:
-                tampilkanJadwalMaju(headNode);
-                break;
-            case 3:
-                cout << "Masukkan Nomor Pesawat yang mau diubah: "; getline(cin >> ws, no);
-                ubahJadwal(headNode, no);
-                break;
-            case 4:
-                cout << "Masukkan Nomor Pesawat yang mau dihapus: "; getline(cin >> ws, no);
-                hapusJadwal(headNode, tailNode, no);
-                break;
-            case 5:
-                urutkanJadwal(headNode);
-                tampilkanJadwalMaju(headNode);
-                break;
-            case 6:
                 cout << "Masukkan Nama Penumpang: "; getline(cin >> ws, namaPenumpang);
                 cout << "Masukkan Kelas Penumpang (Economy/dll): "; getline(cin >> ws, kelasPenumpang);
                 enqueue(namaPenumpang, kelasPenumpang);
                 tambahAktivitas("Menambah antrian reguler penumpang " + namaPenumpang);
                 break;
-            case 7:
+            case 2:
                 dequeue();
                 tambahAktivitas("Memproses antrian reguler");
                 break;
-            case 8:
+            case 3:
                 tampilAntrian();
                 break;
-            case 9:
+            case 4:
                 cout << "Masukkan Nama Penumpang: "; getline(cin >> ws, namaPenumpang);
                 kelasPenumpang = "Business";
                 enqueuePrioritas(namaPenumpang, kelasPenumpang);
                 tambahAktivitas("Menambah antrian prioritas penumpang " + namaPenumpang);
                 break;
-            case 10:
+            case 5:
                 dequeuePrioritas();
                 tambahAktivitas("Memproses antrian prioritas");
                 break;
-            case 11:
+            case 6:
                 tampilPrioritas();
                 break;
-            case 12:
+            case 7:
                 cout << "Masukkan aktivitas: ";
                 getline(cin >> ws, aktivitasBaru);
                 tambahAktivitas(aktivitasBaru);
                 break;
-            case 13:
+            case 8:
                 hapusAktivitas();
                 break;
-            case 14:
+            case 9:
                 lihatAktivitas();
                 break;
-            case 15:
+            case 10:
                 jumlahAktivitas();
                 break;
-            case 16:
+            case 11:
                 tampilkanSemuaAktivitas();
                 break;
-            case 17:
+            case 12:
                 cout << "Masukkan Nama Penumpang: ";
                 getline(cin >> ws, namaPenumpang);
                 cout << "Masukkan Nomor Tiket: "; getline(cin >> ws, tiket);
@@ -141,14 +103,14 @@ int main() {
                 tambahPenumpangBagasi(daftarPenumpangBagasi, namaPenumpang, tiket, bagasi);
                 tambahAktivitas("Menambah data penumpang dan bagasi " + namaPenumpang);
                 break;
-            case 18:
+            case 13:
                 tampilkanSemuaBagasi(daftarPenumpangBagasi);
                 break;
-            case 19:
+            case 14:
                 cout << "Masukkan Nomor Bagasi yang dicari: "; getline(cin >> ws, bagasi);
                 cariNomorBagasi(daftarPenumpangBagasi, bagasi);
                 break;
-            case 20:
+            case 15:
                 cout << "Masukkan Nomor Lajur   : "; cin >> nomorLajur;
                 if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); cout << "[EROR] Nomor harus angka!\n"; continue; }
                 cout << "Masukkan Nama Maskapai : "; getline(cin >> ws, maskapai);
@@ -157,16 +119,16 @@ int main() {
                 tambahLajur(nomorLajur, maskapai, kapasitasLajur);
                 tambahAktivitas("Menambah lajur keberangkatan nomor " + to_string(nomorLajur));
                 break;
-            case 21:
+            case 16:
                 tampilkanLajur();
                 break;
-            case 22:
+            case 17:
                 cout << "Masukkan Nomor Lajur yang statusnya diubah: "; cin >> nomorLajur;
                 if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); cout << "[EROR] Nomor harus angka!\n"; continue; }
                 ubahStatusLajur(nomorLajur);
                 tambahAktivitas("Mengubah status lajur nomor " + to_string(nomorLajur));
                 break;
-            case 23:
+            case 18:
                 cout << "Masukkan Nomor Lajur yang dihapus: "; cin >> nomorLajur;
                 if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); cout << "[EROR] Nomor harus angka!\n"; continue; }
                 hapusLajur(nomorLajur);
@@ -176,7 +138,7 @@ int main() {
                 cout << "\nTerima kasih! Program selesai.\n";
                 break;
             default:
-                cout << "\n[INFO] Pilihan tidak valid! Masukkan angka 0-23.\n";
+                cout << "\n[INFO] Pilihan tidak valid! Masukkan angka 0-18.\n";
         }
     } while (pilihan != 0);
 
